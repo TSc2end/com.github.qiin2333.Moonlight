@@ -207,6 +207,9 @@
 				"QMAKE_RPATHDIR=/app/lib"
 			],
 			"build-options": {
+				"env": {
+					"PKG_CONFIG_PATH": "/app/lib/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig"
+				},
 				"config-opts": [
 					"CONFIG+=disable-cuda"
 				],
