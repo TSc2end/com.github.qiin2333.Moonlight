@@ -225,18 +225,6 @@
 					"disable-shallow-clone": true,
 					"tag": "v6.2.90",
 					"commit": "4ecad952a72851dcec1f01a32762e1ffd1db266c"
-				},
-				{
-					"type": "patch",
-					"path": "0001-Fix-null-window-on-Qt-6.9.patch"
-				},
-				{
-					"type": "patch",
-					"path": "0002-Fix-tooltip-layout-with-Qt-6.9.patch"
-				},
-				{
-					"type": "patch",
-					"path": "0003-Fix-incorrect-toolbar-color-on-Qt-6.9.patch"
 				}
 			]
 		}
