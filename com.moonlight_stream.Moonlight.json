@@ -1,10 +1,10 @@
 {
-	"app-id": "com.moonlight_stream.Moonlight",
+	"app-id": "com.github.qiin2333.Moonlight",
 	"runtime": "org.kde.Platform",
 	"runtime-version": "6.10",
 	"sdk": "org.kde.Sdk",
 	"command": "moonlight",
-	"rename-icon": "moonlight",
+	"rename-icon": "com.github.qiin2333.Moonlight",
 	"finish-args": [
 		"--share=network",
 		"--socket=fallback-x11",
@@ -221,10 +221,10 @@
 			"sources": [
 				{
 					"type": "git",
-					"url": "https://github.com/moonlight-stream/moonlight-qt.git",
+					"url": "https://github.com/qiin2333/moonlight-qt.git",
 					"disable-shallow-clone": true,
 					"tag": "v6.1.0",
-					"commit": "f786e94c7b2f943e24e65d7d74deb539b827fc84"
+					"commit": "master"
 				},
 				{
 					"type": "patch",
