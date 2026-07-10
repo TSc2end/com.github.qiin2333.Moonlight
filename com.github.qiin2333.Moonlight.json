@@ -116,7 +116,7 @@
 		        {
 		            "type": "archive",
 		            "url": "https://github.com/libsdl-org/SDL_ttf/releases/download/release-2.22.0/SDL2_ttf-2.22.0.tar.gz",
-		            "sha256": "d48cbd1ce475b9e178206bf3b72a57d6f4c37366a05e488b4a6a096321b70b74"
+		            "sha256": "d48cbd1ce475b9e178206bf3b72d56b66d84d44f64ac05803328396234d67723"
 		        }
 		    ],
 		    "cleanup": [
