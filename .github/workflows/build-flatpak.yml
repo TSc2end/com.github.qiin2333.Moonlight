@@ -1,0 +1,37 @@
+name: Build Flatpak
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder jq
+          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+      - name: Install KDE SDK
+        run: |
+          sudo flatpak install -y flathub org.kde.Platform//6.10 org.kde.Sdk//6.10
+
+      - name: Build Flatpak
+        run: |
+          flatpak-builder --repo=repo --force-clean build-dir com.github.qiin2333.Moonlight.json
+
+      - name: Create bundle
+        run: |
+          flatpak build-bundle repo moonlight-qt-x86_64.flatpak com.github.qiin2333.Moonlight --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: moonlight-qt-flatpak
+          path: moonlight-qt-x86_64.flatpak
