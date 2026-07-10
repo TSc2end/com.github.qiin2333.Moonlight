@@ -109,20 +109,23 @@
 			"name": "SDL2_ttf",
 			"buildsystem": "cmake-ninja",
 			"builddir": true,
-			"build-options": {
-				"config-opts": [
-					"-DSDL2TTF_VENDORED=ON",
-					"-DSDL2TTF_SAMPLES=OFF"
-				]
-			},
-			"sources": [
-				{
-					"type": "git",
-					"url": "https://github.com/libsdl-org/SDL_ttf.git",
-					"//": "branch: SDL2",
-					"commit": "a883e490e30fb44a5336ea3dcb990c6982c5216f"
-				}
-			]
+			"config-opts": [
+		    	"-DSDL2TTF_VENDORED=ON"
+		    ],
+		    "sources": [
+		        {
+		            "type": "archive",
+		            "url": "https://github.com/libsdl-org/SDL_ttf/releases/download/release-2.22.0/SDL2_ttf-2.22.0.tar.gz",
+		            "sha256": "d48cbd1ce475b9e178206bf3b72a57d6f4c37366a05e488b4a6a096321b70b74"
+		        }
+		    ],
+		    "cleanup": [
+		        "/bin",
+		        "/include",
+		        "/lib/cmake",
+		        "/lib/pkgconfig",
+		        "/share"
+		    ]
 		},
 		{
 			"name": "dav1d",
