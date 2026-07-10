@@ -8,7 +8,7 @@ on:
         required: false
         default: ''
   schedule:
-    - cron: '0 8 * * *'  # 每天 UTC 08:00 检查一次（北京时间 16:00）
+    - cron: '0 8 * * *'
 
 jobs:
   check-version:
@@ -61,7 +61,6 @@ jobs:
             echo "should_build=false" >> $GITHUB_OUTPUT
             exit 0
           fi
-          # 通过本地 git tag 记录已构建版本，避免重复构建
           if git rev-parse "refs/tags/build-${VERSION}" >/dev/null 2>&1; then
             echo "Version $VERSION already built, skipping."
             echo "should_build=false" >> $GITHUB_OUTPUT
@@ -80,13 +79,10 @@ jobs:
     steps:
       - name: Install dependencies
         run: |
-          dnf install -y git flatpak flatpak-builder jq curl nodejs
+          dnf install -y git flatpak flatpak-builder jq curl
 
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Flathub
         run: |
@@ -105,8 +101,6 @@ jobs:
             '(.modules[] | select(.name == "moonlight").sources[0]) |= (.tag = $version | .commit = $commit)' \
             com.github.qiin2333.Moonlight.json > manifest.json
           mv manifest.json com.github.qiin2333.Moonlight.json
-          echo "Updated manifest:"
-          jq '.modules[] | select(.name == "moonlight").sources[0]' com.github.qiin2333.Moonlight.json
 
       - name: Build Flatpak
         run: |
