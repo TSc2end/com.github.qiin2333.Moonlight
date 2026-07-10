@@ -4,7 +4,7 @@
 	"runtime-version": "6.10",
 	"sdk": "org.kde.Sdk",
 	"command": "moonlight",
-	"rename-icon": "com.github.qiin2333.Moonlight",
+	"rename-icon": "moonlight",
 	"finish-args": [
 		"--share=network",
 		"--socket=fallback-x11",
@@ -223,8 +223,8 @@
 					"type": "git",
 					"url": "https://github.com/qiin2333/moonlight-qt.git",
 					"disable-shallow-clone": true,
-					"tag": "v6.1.0",
-					"commit": "master"
+					"tag": "v6.2.90",
+					"commit": "4ecad952a72851dcec1f01a32762e1ffd1db266c"
 				},
 				{
 					"type": "patch",
