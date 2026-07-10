@@ -8,19 +8,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: fedora:44
+      options: --privileged
     steps:
+      - name: Install dependencies
+        run: |
+          dnf install -y git flatpak flatpak-builder jq
+
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Setup Flathub
         run: |
-          sudo apt-get update
-          sudo apt-get install -y flatpak flatpak-builder jq
-          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
       - name: Install KDE SDK
         run: |
-          sudo flatpak install -y flathub org.kde.Platform//6.10 org.kde.Sdk//6.10
+          flatpak install -y flathub org.kde.Platform//6.10 org.kde.Sdk//6.10
 
       - name: Build Flatpak
         run: |
