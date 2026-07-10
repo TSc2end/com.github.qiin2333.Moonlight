@@ -207,9 +207,6 @@
 				"QMAKE_RPATHDIR=/app/lib"
 			],
 			"build-options": {
-				"env": {
-					"PKG_CONFIG_PATH": "/app/lib/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig"
-				},
 				"config-opts": [
 					"CONFIG+=disable-cuda"
 				],
@@ -221,6 +218,12 @@
 					}
 				}
 			},
+			"post-install": [
+				"mv /app/share/applications/com.moonlight_stream.Moonlight.desktop /app/share/applications/com.github.qiin2333.Moonlight.desktop",
+				"sed -i 's|com.moonlight_stream.Moonlight|com.github.qiin2333.Moonlight|g' /app/share/metainfo/com.moonlight_stream.Moonlight.appdata.xml",
+				"sed -i 's/6\\.1\\.0/6.2.90/g' /app/share/metainfo/com.moonlight_stream.Moonlight.appdata.xml",
+				"mv /app/share/metainfo/com.moonlight_stream.Moonlight.appdata.xml /app/share/metainfo/com.github.qiin2333.Moonlight.metainfo.xml"
+			],
 			"sources": [
 				{
 					"type": "git",
