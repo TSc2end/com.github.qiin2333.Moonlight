@@ -29,11 +29,6 @@ jobs:
           if [ -n "${{ github.event.inputs.version }}" ]; then
             VERSION="${{ github.event.inputs.version }}"
             echo "Manual input version: $VERSION"
-            COMMIT=$(curl -sL "https://api.github.com/repos/qiin2333/moonlight-qt/git/ref/tags/${VERSION}" | jq -r '.object.sha // empty')
-            if [ -z "$COMMIT" ]; then
-              echo "Error: Cannot find commit for tag ${VERSION}"
-              exit 1
-            fi
           else
             echo "Auto-detecting latest upstream release..."
             RELEASE=$(curl -sL "https://api.github.com/repos/qiin2333/moonlight-qt/releases/latest")
@@ -44,15 +39,32 @@ jobs:
               echo "commit=" >> $GITHUB_OUTPUT
               exit 0
             fi
-            COMMIT=$(echo "$RELEASE" | jq -r '.target_commitish // empty')
-            if [ -z "$COMMIT" ] || [ "$COMMIT" = "null" ]; then
-              COMMIT=$(curl -sL "https://api.github.com/repos/qiin2333/moonlight-qt/git/ref/tags/${VERSION}" | jq -r '.object.sha // empty')
-            fi
           fi
+
+          # 通过 Git ref API 获取 tag 指向的真实 commit SHA
+          TAG_DATA=$(curl -sL "https://api.github.com/repos/qiin2333/moonlight-qt/git/ref/tags/${VERSION}")
+          SHA=$(echo "$TAG_DATA" | jq -r '.object.sha // empty')
+          TYPE=$(echo "$TAG_DATA" | jq -r '.object.type // empty')
+
+          if [ "$TYPE" = "tag" ]; then
+            # annotated tag：需要再请求一次 tag 对象获取真正的 commit SHA
+            COMMIT=$(curl -sL "https://api.github.com/repos/qiin2333/moonlight-qt/git/tags/${SHA}" | jq -r '.object.sha // empty')
+          elif [ "$TYPE" = "commit" ]; then
+            # lightweight tag：直接就是 commit SHA
+            COMMIT="$SHA"
+          else
+            echo "Error: Unknown tag object type: $TYPE"
+            exit 1
+          fi
+
+          if [ -z "$COMMIT" ]; then
+            echo "Error: Cannot resolve commit for tag ${VERSION}"
+            exit 1
+          fi
+
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "commit=$COMMIT" >> $GITHUB_OUTPUT
           echo "Upstream: $VERSION @ $COMMIT"
-
       - name: Check if already built
         id: check
         run: |
