@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: '版本号 (如 v6.2.90)，留空则自动检测上游最新稳定版'
+        description: '上游仓库发行版本号 (如 v6.2.90)，留空则自动检测上游最新稳定版'
         required: false
         default: ''
   schedule:
